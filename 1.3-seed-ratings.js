@@ -28,7 +28,27 @@ function seedRatings() {
 
     const { tconst, averageRating, numVotes } = lineParser.parse(line);
 
-    const params = {};
+    const params = {
+      TableName: "Movies",
+      Key: {
+        tconst: {
+          S: tconst,
+        },
+        sk: {
+          S: "MOVIES#",
+        },
+      },
+      UpdateExpression:
+        "set averagerating = :avaragerating, numvotes = :numvotes",
+      ExpressionAttributeValues: {
+        ":avaragerating": {
+          N: averageRating,
+        },
+        ":numvotes": {
+          N: numVotes,
+        },
+      },
+    };
 
     try {
       log(counter, seedCounter);

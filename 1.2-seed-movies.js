@@ -31,8 +31,29 @@ function seed() {
 
     const params = {
       TableName: "Movies",
+      Item: {
+        tconst: {
+          S: tconst,
+        },
+        originalTitle: {
+          S: originalTitle,
+        },
+        startYear: {
+          N: startYear,
+        },
+        runtimeMinutes: {
+          N: runtimeMinutes,
+        },
+        genres: {
+          SS: genres.split(","),
+        },
+      },
       ReturnConsumedCapacity: "TOTAL",
     };
+
+    if (genres === "\\N") {
+      delete params.Item.genres;
+    }
 
     try {
       log(counter, seedCounter);

@@ -37,9 +37,36 @@ function seed() {
 
     const params = {
       TableName: "Movies",
-      Item: {},
+      Item: {
+        tconst: {
+          S: tconst,
+        },
+        sk: {
+          S: `DIRECTORS#${nconst}`,
+        },
+        primaryName: {
+          S: primaryName,
+        },
+        birthYear: {
+          N: birthYear,
+        },
+        deathYear: {
+          N: deathYear,
+        },
+        primaryProfession: {
+          SS: primaryProfession.split(","),
+        },
+      },
       ReturnConsumedCapacity: "TOTAL",
     };
+
+    if (birthYear === "\\N") {
+      delete params.Item.birthYear;
+    }
+
+    if (deathYear === "\\N") {
+      delete params.Item.deathYear;
+    }
 
     try {
       log(counter, seedCounter);
